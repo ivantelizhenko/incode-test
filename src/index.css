@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+  themes: light --default;
 }
 
 @layer base {
@@ -13,5 +13,7 @@
     font-size: 1.6rem;
     line-height: 1.5;
     font-weight: 400;
+    border-color: #ccc;
+    color: #222;
   }
 }

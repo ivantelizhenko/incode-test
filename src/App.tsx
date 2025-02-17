@@ -1,11 +1,16 @@
-import { useAppDispatch } from './store/hooks';
-import { sayHi } from './store/ListSlice';
+import Header from './components/Header';
+import Fields from './components/Fields';
+import AppLayout from './components/AppLayout';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
-  const dispatch = useAppDispatch();
-  dispatch(sayHi());
-
-  return <div>Start</div>;
+  return (
+    <AppLayout>
+      <Header />
+      <Fields />
+      <Toaster />
+    </AppLayout>
+  );
 }
 
 export default App;
