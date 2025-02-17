@@ -2,7 +2,7 @@ import Field from './Field';
 
 function Fields() {
   return (
-    <div className="bg-orange-400 h-full flex gap-[2.4rem] ">
+    <div className=" flex gap-[2.4rem] overflow-hidden h-full">
       <Field title="ToDo" />
       <Field title="In Progress" />
       <Field title="Done" />

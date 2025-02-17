@@ -8,6 +8,7 @@ let style: string = ' ';
 
 function Heading({ children, className, as: Tag }: HeadingProps) {
   if (Tag === 'h2') style = 'text-[2.4rem]';
+  if (Tag === 'h3') style = 'text-[1.6rem] font-[600]';
 
   return <Tag className={style + ' ' + className}>{children}</Tag>;
 }

@@ -2,10 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { API_URL, TOKEN } from '../utils/constants';
 import toast from 'react-hot-toast';
 
-type Issue = {
+export type AreaType = 'ToDo' | 'InProgress' | 'Done';
+
+export type Issue = {
   comments: string;
   title: string;
   lastUpdate: string;
+  authorUrl: string;
   number: string;
   author: string;
   id: string;
@@ -105,14 +108,18 @@ const listSlice = createSlice({
           );
 
           state.isLoading = false;
-          state.listToDo = toDoArr;
-          state.listDone = doneArr;
+          state.listToDo = [...state.listToDo, ...toDoArr];
+          state.listDone = [...state.listDone, ...doneArr];
 
+          state.allRepos.push(action.payload.repoUrl);
           state.repoData.owner = action.payload.owner;
           state.repoData.repoName = action.payload.repoName;
           state.repoData.repoUrl = action.payload.repoUrl;
         }
-      ),
+      )
+      .addCase(getIssues.rejected, state => {
+        state.isLoading = false;
+      }),
 });
 
 export const {} = listSlice.actions;

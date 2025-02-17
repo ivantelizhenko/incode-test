@@ -15,5 +15,8 @@
     font-weight: 400;
     border-color: #ccc;
     color: #222;
+    display: flex;
+    justify-content: center;
+    scroll-behavior: smooth;
   }
 }
