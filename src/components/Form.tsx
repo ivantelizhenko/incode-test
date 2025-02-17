@@ -13,11 +13,12 @@ function Form({ className }: { className: string }) {
   }>({ owner: '', repoName: '' });
   const dispatch = useAppDispatch();
 
-  function handleFetchIssues(e: FormEvent) {
+  function handleFetchIssues(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(
       getIssues({ owner: requestObj.owner, repoName: requestObj.repoName })
     );
+    e.currentTarget.reset();
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {

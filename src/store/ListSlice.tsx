@@ -12,13 +12,13 @@ type Issue = {
   status: 'open' | 'close';
 };
 
-type RequestDataType = { owner: string; repoName: string; repoUrl: string };
+type RepoDataType = { owner: string; repoName: string; repoUrl: string };
 
 type StateType = {
   listToDo: Issue[];
   listInProgress: Issue[];
   listDone: Issue[];
-  requestData: RequestDataType;
+  repoData: RepoDataType;
   isLoading: boolean;
   error: string;
   allRepos: string[];
@@ -29,7 +29,7 @@ const initialState: StateType = {
   listInProgress: [],
   listDone: [],
   allRepos: [],
-  requestData: { owner: '', repoName: '', repoUrl: '' },
+  repoData: { owner: '', repoName: '', repoUrl: '' },
   isLoading: false,
   error: '',
 };
@@ -44,8 +44,8 @@ export const getIssues = createAsyncThunk(
       },
     });
     if (!res.ok) {
-      toast.error(`Error with fetching issues: ${res.statusText}`);
-      throw new Error(`Error with fetching issues: ${res.statusText}`);
+      toast.error(`This repo doesn't exist. Please try again`);
+      throw new Error(`Error with fetching issues`);
     }
 
     const data = await res.json();
@@ -57,9 +57,9 @@ export const getIssues = createAsyncThunk(
 
     if (data.length === 0) {
       toast.error('This repo doesn`t have a issues');
-      return { issues: [], repoUrl: '' };
+      return { issues: [], repoUrl: '', owner: '', repoName: '' };
     }
-    console.log(data);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const issues = data.map((issue: any) => ({
       comments: issue.comments,
@@ -71,23 +71,16 @@ export const getIssues = createAsyncThunk(
       authorUrl: issue.user.html_url,
       status: issue.state,
     }));
-
-    const repoUrl = data[0].repository_url;
-    return { issues, repoUrl };
+    toast.success('This repo is successfully added');
+    const repoUrl = `https://github.com/${owner}/${repoName}`;
+    return { issues, repoUrl, owner, repoName };
   }
 );
 
 const listSlice = createSlice({
   name: 'list',
   initialState,
-  reducers: {
-    setRequestData(
-      state,
-      action: PayloadAction<{ owner: string; repoName: string }>
-    ) {
-      state.requestData = { ...state.requestData, ...action.payload };
-    },
-  },
+  reducers: {},
   extraReducers: builder =>
     builder
       .addCase(getIssues.pending, state => {
@@ -97,7 +90,12 @@ const listSlice = createSlice({
         getIssues.fulfilled,
         (
           state,
-          action: PayloadAction<{ issues: Issue[]; repoUrl: string }>
+          action: PayloadAction<{
+            issues: Issue[];
+            repoUrl: string;
+            repoName: string;
+            owner: string;
+          }>
         ) => {
           const toDoArr = action.payload.issues.filter(
             issue => issue.status === 'open'
@@ -109,16 +107,14 @@ const listSlice = createSlice({
           state.isLoading = false;
           state.listToDo = toDoArr;
           state.listDone = doneArr;
-          state.requestData.repoUrl = action.payload.repoUrl;
+
+          state.repoData.owner = action.payload.owner;
+          state.repoData.repoName = action.payload.repoName;
+          state.repoData.repoUrl = action.payload.repoUrl;
         }
-      )
-      .addCase(getIssues.rejected, state => {
-        state.isLoading = false;
-        state.error =
-          'There is problem with fetching issues. Please try again.';
-      }),
+      ),
 });
 
-export const { setRequestData } = listSlice.actions;
+export const {} = listSlice.actions;
 
 export default listSlice.reducer;

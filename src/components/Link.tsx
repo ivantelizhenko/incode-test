@@ -6,7 +6,7 @@ type LinkProps = {
   children: ReactNode;
 };
 
-const style = 'text-blue-400 hover:border-b hover:mb-[2px] w-fit h-fit ';
+const style = 'text-blue-400 hover:border-b hover:mb-[2px] h-fit ';
 
 function Link({ className, children, url }: LinkProps) {
   return (
