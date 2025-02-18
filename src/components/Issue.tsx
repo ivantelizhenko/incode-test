@@ -1,21 +1,34 @@
-// comments: string;
-// title: string;
-// lastUpdate: string;
-// number: string;
-// author: string;
-// id: string;
-// status: 'open' | 'close';
-
 import Heading from './Heading';
-import { type Issue } from '../store/ListSlice';
+import { AreaType, type Issue } from '../store/ListSlice';
 import { format } from 'date-fns';
+import { useDrag } from 'react-dnd';
+import { ItemTypes } from '../utils/constants';
+import { useEffect } from 'react';
 
-function Issue({ data }: { data: Issue }) {
-  const { comments, title, lastUpdate, number, author, authorUrl } = data;
+function Issue({ data, type }: { data: Issue; type: AreaType }) {
+  const { comments, title, lastUpdate, number, author, authorUrl, id } = data;
   const date = format(new Date(lastUpdate), 'MM/dd/yyyy');
 
+  const [{ item, isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes[type],
+    item: { id },
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+      item: monitor.getItem(),
+    }),
+  }));
+
+  useEffect(() => {
+    if (isDragging) {
+      console.log(item);
+    }
+  }, [item, isDragging]);
+
   return (
-    <div className="bg-white px-[1.6rem] py-[1.2rem] rounded-md w-full flex flex-col gap-[.75rem] text-[#777]">
+    <div
+      ref={drag as unknown as React.RefCallback<HTMLDivElement>}
+      className="bg-white px-[1.6rem] py-[1.2rem] rounded-md w-full flex flex-col gap-[.75rem] text-[#777] "
+    >
       <Heading as="h3" className="text-[#333]!">
         {title}
       </Heading>

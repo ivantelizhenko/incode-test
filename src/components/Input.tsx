@@ -19,6 +19,7 @@ function Input({
       className={style + ' ' + className}
       onChange={onChange}
       disabled={isLoading}
+      defaultValue="https://github.com/facebook/react"
     />
   );
 }
