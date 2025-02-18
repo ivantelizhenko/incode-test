@@ -4,7 +4,7 @@ import Form from './Form';
 import Link from './Link';
 
 function Header() {
-  const { repoData } = useAppSelector(store => store.list);
+  const { repoData } = useAppSelector(store => store.board);
 
   return (
     <div className="grid grid-cols-[repeat(12,1fr)] grid-rows-2 gap-[1rem] ">

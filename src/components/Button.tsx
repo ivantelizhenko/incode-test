@@ -14,7 +14,7 @@ function Button({
   onClick?: (e: React.MouseEvent) => void;
   type?: 'button' | 'submit' | 'reset';
 }) {
-  const { isLoading } = useAppSelector(store => store.list);
+  const { isLoading } = useAppSelector(store => store.board);
   return (
     <button
       onClick={onClick}

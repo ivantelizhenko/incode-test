@@ -1,4 +1,4 @@
-import { AreaType } from '../store/ListSlice';
+import { AreaType } from '../store/BoardSlice';
 import Area from './Area';
 import Heading from './Heading';
 

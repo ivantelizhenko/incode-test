@@ -10,7 +10,7 @@ function Input({
   className?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
-  const { isLoading } = useAppSelector(store => store.list);
+  const { isLoading } = useAppSelector(store => store.board);
 
   return (
     <input

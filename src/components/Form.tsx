@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch } from '../store/hooks';
-import { getIssues } from '../store/ListSlice';
+import { getIssues } from '../store/BoardSlice';
 import Button from './Button';
 import Input from './Input';
 

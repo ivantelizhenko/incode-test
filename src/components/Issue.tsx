@@ -1,11 +1,13 @@
 import Heading from './Heading';
-import { AreaType, type Issue } from '../store/ListSlice';
+import { AreaType, setSelectedIssue, type Issue } from '../store/BoardSlice';
 import { format } from 'date-fns';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../utils/constants';
 import { useEffect } from 'react';
+import { useAppDispatch } from '../store/hooks';
 
 function Issue({ data, type }: { data: Issue; type: AreaType }) {
+  const dispatch = useAppDispatch();
   const { comments, title, lastUpdate, number, author, authorUrl, id } = data;
   const date = format(new Date(lastUpdate), 'MM/dd/yyyy');
 
@@ -20,9 +22,9 @@ function Issue({ data, type }: { data: Issue; type: AreaType }) {
 
   useEffect(() => {
     if (isDragging) {
-      console.log(item);
+      dispatch(setSelectedIssue(item.id));
     }
-  }, [item, isDragging]);
+  }, [item, isDragging, dispatch]);
 
   return (
     <div
