@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
-import { API_URL, TOKEN } from '../utils/constants';
+import { API_URL } from '../utils/constants';
 import { AreaType, Issue, StateType } from '../utils/types';
 
 const initialState: StateType = {
@@ -23,12 +23,7 @@ const statuses: { [x: string]: string } = {
 export const getIssues = createAsyncThunk(
   'getIssues/board',
   async function ({ owner, repoName }: { owner: string; repoName: string }) {
-    const res = await fetch(`${API_URL}/${owner}/${repoName}/issues`, {
-      headers: {
-        Authorization: `token ${TOKEN}`,
-        Accept: 'application/vnd.github.v3+json',
-      },
-    });
+    const res = await fetch(`${API_URL}/${owner}/${repoName}/issues`);
     if (!res.ok) {
       toast.error(`This repo doesn't exist. Please try again`);
       throw new Error(`Error with fetching issues`);
