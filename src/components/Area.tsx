@@ -9,6 +9,7 @@ const style =
 function Area({ className, type }: { className?: string; type: AreaType }) {
   const data = useAppSelector(store => store.list);
   const curList = data[`list${type}`];
+
   return (
     <div className={style + ' ' + className}>
       {curList?.map(issue => (

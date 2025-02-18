@@ -74,7 +74,6 @@ export const getIssues = createAsyncThunk(
       authorUrl: issue.user.html_url,
       status: issue.state,
     }));
-    toast.success('This repo is successfully added');
     const repoUrl = `https://github.com/${owner}/${repoName}`;
     return { issues, repoUrl, owner, repoName };
   }
@@ -100,6 +99,12 @@ const listSlice = createSlice({
             owner: string;
           }>
         ) => {
+          state.isLoading = false;
+          if (state.allRepos.includes(action.payload.repoUrl)) {
+            toast.error('You alreay have this repo');
+            return;
+          }
+
           const toDoArr = action.payload.issues.filter(
             issue => issue.status === 'open'
           );
@@ -107,14 +112,16 @@ const listSlice = createSlice({
             issue => issue.status === 'close'
           );
 
-          state.isLoading = false;
           state.listToDo = [...state.listToDo, ...toDoArr];
           state.listDone = [...state.listDone, ...doneArr];
 
           state.allRepos.push(action.payload.repoUrl);
-          state.repoData.owner = action.payload.owner;
-          state.repoData.repoName = action.payload.repoName;
-          state.repoData.repoUrl = action.payload.repoUrl;
+          state.repoData = {
+            owner: action.payload.owner,
+            repoName: action.payload.repoName,
+            repoUrl: action.payload.repoUrl,
+          };
+          toast.success('This repo is successfully added');
         }
       )
       .addCase(getIssues.rejected, state => {
