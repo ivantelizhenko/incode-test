@@ -8,12 +8,13 @@ import { useAppDispatch } from '../store/hooks';
 
 function Issue({ data, type }: { data: Issue; type: AreaType }) {
   const dispatch = useAppDispatch();
-  const { comments, title, lastUpdate, number, author, authorUrl, id } = data;
+  const { comments, title, lastUpdate, number, author, authorUrl, id, status } =
+    data;
   const date = format(new Date(lastUpdate), 'MM/dd/yyyy');
 
   const [{ item, isDragging }, drag] = useDrag(() => ({
     type: ItemTypes[type],
-    item: { id },
+    item: { id, status },
     collect: monitor => ({
       isDragging: monitor.isDragging(),
       item: monitor.getItem(),
@@ -22,7 +23,7 @@ function Issue({ data, type }: { data: Issue; type: AreaType }) {
 
   useEffect(() => {
     if (isDragging) {
-      dispatch(setSelectedIssue(item.id));
+      dispatch(setSelectedIssue(item));
     }
   }, [item, isDragging, dispatch]);
 

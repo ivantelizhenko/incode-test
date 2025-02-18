@@ -95,12 +95,23 @@ const boardSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    setSelectedIssue(state, action: PayloadAction<string>) {
-      state.selectedIssue.id = action.payload;
+    setSelectedIssue(
+      state,
+      action: PayloadAction<{ id: string; status: AreaType }>
+    ) {
+      state.selectedIssue = action.payload;
     },
-    // changeColumn(state, action: PayloadAction<AreaType>) {
-    //   const { id, status } = state.selectedIssue;
-    // },
+    changeColumn(state, action: PayloadAction<AreaType>) {
+      const { id, status } = state.selectedIssue;
+      const curIssue = state[`list${status}`].find(issue => issue.id === id);
+      state[`list${action.payload}`].push({
+        ...curIssue!,
+        status: action.payload,
+      });
+      state[`list${status}`] = state[`list${status}`].filter(
+        issue => issue.id !== id
+      );
+    },
   },
   extraReducers: builder =>
     builder
@@ -154,6 +165,6 @@ const boardSlice = createSlice({
       }),
 });
 
-export const { setSelectedIssue } = boardSlice.actions;
+export const { setSelectedIssue, changeColumn } = boardSlice.actions;
 
 export default boardSlice.reducer;

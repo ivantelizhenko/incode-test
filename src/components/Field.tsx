@@ -13,7 +13,7 @@ function Field({ title }: FieldProps) {
       <Heading as="h2" className="text-center">
         {title}
       </Heading>
-      <Area className="h-full" type={type as AreaType} />
+      <Area className="h-full" type={AreaType[type as keyof typeof AreaType]} />
     </div>
   );
 }
