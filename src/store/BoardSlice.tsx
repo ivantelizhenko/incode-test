@@ -1,35 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { API_URL, TOKEN } from '../utils/constants';
 import toast from 'react-hot-toast';
 
-export enum AreaType {
-  ToDo = 'ToDo',
-  InProgress = 'InProgress',
-  Done = 'Done',
-}
-
-export type Issue = {
-  comments: string;
-  title: string;
-  lastUpdate: string;
-  authorUrl: string;
-  number: string;
-  author: string;
-  id: string;
-  status: AreaType;
-};
-
-type RepoDataType = { owner: string; repoName: string; repoUrl: string };
-
-type StateType = {
-  listToDo: Issue[];
-  listInProgress: Issue[];
-  listDone: Issue[];
-  repoData: RepoDataType;
-  isLoading: boolean;
-  allRepos: string[];
-  selectedIssue: { id: string; status: AreaType };
-};
+import { API_URL, TOKEN } from '../utils/constants';
+import { AreaType, Issue, StateType } from '../utils/types';
 
 const initialState: StateType = {
   listToDo: [],

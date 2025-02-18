@@ -1,5 +1,12 @@
 import { ReactNode } from 'react';
-import { useAppSelector } from '../store/hooks';
+
+type ButtonProps = {
+  children: ReactNode;
+  className?: string;
+  onClick?: (e: React.MouseEvent) => void;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+};
 
 const style = 'button cursor-pointer border border-[#ccc] rounded-md';
 
@@ -8,19 +15,14 @@ function Button({
   children,
   onClick,
   type = 'button',
-}: {
-  className?: string;
-  children: ReactNode;
-  onClick?: (e: React.MouseEvent) => void;
-  type?: 'button' | 'submit' | 'reset';
-}) {
-  const { isLoading } = useAppSelector(store => store.board);
+  disabled = false,
+}: ButtonProps) {
   return (
     <button
       onClick={onClick}
       className={style + ' ' + className}
       type={type}
-      disabled={isLoading}
+      disabled={disabled}
     >
       {children}
     </button>

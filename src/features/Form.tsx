@@ -1,17 +1,24 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useAppDispatch } from '../store/hooks';
+
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getIssues } from '../store/BoardSlice';
-import Button from './Button';
-import Input from './Input';
+
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+
+type FormProps = {
+  className: string;
+};
 
 const style = 'flex gap-[2.4rem] ';
 
-function Form({ className }: { className: string }) {
+function Form({ className }: FormProps) {
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector(store => store.board);
   const [requestObj, setRequestObj] = useState<{
     owner: string;
     repoName: string;
   }>({ owner: '', repoName: '' });
-  const dispatch = useAppDispatch();
 
   function handleFetchIssues(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,8 +36,8 @@ function Form({ className }: { className: string }) {
 
   return (
     <form className={style + ' ' + className} onSubmit={handleFetchIssues}>
-      <Input onChange={handleChange} />
-      <Button type="submit" className="min-w-[20%]">
+      <Input onChange={handleChange} disabled={isLoading} />
+      <Button type="submit" className="min-w-[20%]" disabled={isLoading}>
         Load issues
       </Button>
     </form>

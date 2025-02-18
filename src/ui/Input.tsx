@@ -1,24 +1,21 @@
 import { ChangeEvent } from 'react';
-import { useAppSelector } from '../store/hooks';
+
+type InputProps = {
+  className?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
+};
 
 const style = 'input text-[1.6rem] p-[1.6rem] w-full ';
 
-function Input({
-  className,
-  onChange,
-}: {
-  className?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-}) {
-  const { isLoading } = useAppSelector(store => store.board);
-
+function Input({ className, onChange, disabled = false }: InputProps) {
   return (
     <input
       type="text"
       placeholder="Enter repo URL"
       className={style + ' ' + className}
       onChange={onChange}
-      disabled={isLoading}
+      disabled={disabled}
     />
   );
 }

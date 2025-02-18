@@ -1,6 +1,6 @@
 import { useAppSelector } from '../store/hooks';
-import Form from './Form';
 
+import Form from '../features/Form';
 import Link from './Link';
 
 function Header() {

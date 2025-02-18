@@ -1,19 +1,23 @@
-import Heading from './Heading';
-import { AreaType, setSelectedIssue, type Issue } from '../store/BoardSlice';
-import { format } from 'date-fns';
-import { useDrag } from 'react-dnd';
-import { ItemTypes } from '../utils/constants';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../store/hooks';
+import { useDrag } from 'react-dnd';
+import { format } from 'date-fns';
 
-function Issue({ data, type }: { data: Issue; type: AreaType }) {
+import { useAppDispatch } from '../store/hooks';
+import { setSelectedIssue } from '../store/BoardSlice';
+
+import Heading from '../ui/Heading';
+import { AreaType, type Issue } from '../utils/types';
+
+type IssueProps = { data: Issue; type: AreaType };
+
+function Issue({ data, type }: IssueProps) {
   const dispatch = useAppDispatch();
   const { comments, title, lastUpdate, number, author, authorUrl, id, status } =
     data;
   const date = format(new Date(lastUpdate), 'MM/dd/yyyy');
 
   const [{ item, isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes[type],
+    type: AreaType[type],
     item: { id, status },
     collect: monitor => ({
       isDragging: monitor.isDragging(),

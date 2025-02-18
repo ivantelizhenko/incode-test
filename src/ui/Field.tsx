@@ -1,15 +1,17 @@
-import { AreaType } from '../store/BoardSlice';
-import Area from './Area';
+import Area from '../features/Area';
 import Heading from './Heading';
+import { AreaType } from '../utils/types';
 
 type FieldProps = {
   title: string;
+  type: string;
 };
 
-function Field({ title }: FieldProps) {
-  const type = title.replace(' ', '');
+const style = 'flex flex-col gap-[1.2rem] w-full';
+
+function Field({ title, type }: FieldProps) {
   return (
-    <div className="flex flex-col gap-[1.2rem] w-full">
+    <div className={style}>
       <Heading as="h2" className="text-center">
         {title}
       </Heading>

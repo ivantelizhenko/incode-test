@@ -1,7 +1,8 @@
-import Header from './components/Header';
-import Fields from './components/Fields';
-import AppLayout from './components/AppLayout';
 import { Toaster } from 'react-hot-toast';
+
+import AppLayout from './ui/AppLayout';
+import Fields from './ui/Fields';
+import Header from './ui/Header';
 
 function App() {
   return (
